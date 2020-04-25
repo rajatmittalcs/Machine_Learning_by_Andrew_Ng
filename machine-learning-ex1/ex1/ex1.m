@@ -70,7 +70,7 @@ fprintf('\nWith theta = [-1 ; 2]\nCost computed = %f\n', J);
 fprintf('Expected cost value (approx) 54.24\n');
 
 fprintf('Program paused. Press enter to continue.\n');
-pause; 
+pause;
 
 fprintf('\nRunning Gradient Descent ...\n')
 % run gradient descent
