@@ -64,31 +64,39 @@ Theta2_grad = zeros(size(Theta2));
 
 %Part 1 solution begins
 X=[ones(m,1) X];
-z=sigmoid([ones(m,1) sigmoid(X*Theta1')] * Theta2');
+Z2=X*Theta1';
+A2=[ones(m,1) sigmoid(Z2)];
+z=sigmoid(A2 * Theta2');
 
 Id=eye(num_labels);
 
-y_temp=zeros(m,num_labels);
+y_restruc=zeros(m,num_labels);
 
 for i=1:m
 
-y_temp(i,:)=Id(y(i),:);
+y_restruc(i,:)=Id(y(i),:);
 
 end
 
-J =(-1/m) * sum(sum(y_temp .* log(z) + (1-y_temp) .* log(1-z))) ; 
+J =(-1/m) * sum(sum(y_restruc .* log(z) + (1-y_restruc) .* log(1-z))) ; 
+
+%Part 2 solution
+
+delta3 = z - y_restruc; 
+delta2 = (( delta3 * Theta2 ) .* sigmoidGradient([ones(m,1) Z2]))(:,2:end);
+
+D2=(1/m)*(delta3' * A2);
+D1=(1/m)*(delta2' * X);
+
+Theta1_grad=D1;
+Theta2_grad=D2;
 
 
+%Part3 solution
 
-
-
-
-
-
-
-
-
-
+J = J + ((lambda/(2*m)) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end) .^ 2))));
+Theta1_grad=Theta1_grad + (lambda/m) *[zeros(size(Theta1,1),1) Theta1(:,2:end)];
+Theta2_grad=Theta2_grad + (lambda/m) *[zeros(size(Theta2,1),1) Theta2(:,2:end)];
 
 
 
