@@ -27,12 +27,14 @@ centroids = zeros(K, n);
 %
 
 
+for i=1:K
 
+%Listing all the elements assigned to specific centroids
+elements=find(idx==i);
+%Finding mean and creating new centroids
+centroids(i,:)=mean(X(elements,:));
 
-
-
-
-
+end
 % =============================================================
 
 
